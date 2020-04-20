@@ -37,7 +37,7 @@ public class TwitterFlow {
         // Split --> dividir un TargetedTweet con muchos tópicos en tantos TargetedTweet como tópicos haya
         // Transform --> señalar el contenido de un TargetedTweet
         //
-		return IntegrationFlows.from(requestChannel()).
+		return IntegrationFlows.from(requestChannel()).log().
 				handle("streamSendingService", "sendTweet").get();
 	}
 
