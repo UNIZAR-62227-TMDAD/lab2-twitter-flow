@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "twitter.consumerKey",
+      "type": "java.lang.String",
+      "description": "Twitter consumerKey."
+    },
+    {
+      "name": "twitter.consumerSecret",
+      "type": "java.lang.String",
+      "description": "Twitter consumerSecret."
+    },
+    {
+      "name": "twitter.accessToken",
+      "type": "java.lang.String",
+      "description": "Twitter accessToken."
+    },
+    {
+      "name": "twitter.accessTokenSecret",
+      "type": "java.lang.String",
+      "description": "Twitter accessTokenSecret."
+    }
+  ] }

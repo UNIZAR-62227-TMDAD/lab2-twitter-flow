@@ -1,5 +1,6 @@
-var subscription = null;
-var newQuery = 0;
+let subscription = null;
+let newQuery = 0;
+let template = null
 
 function registerTemplate() {
 	template = $("#template").html();
@@ -7,14 +8,14 @@ function registerTemplate() {
 }
 
 function setConnected(connected) {
-	var search = $('#submitsearch');
+	const search = $('#submitsearch');
 	search.prop('disabled', !connected);
 }
 
 function registerSendQueryAndConnect() {
-    var socket = new SockJS("/twitter");
-    var stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
+	const socket = new SockJS("/twitter");
+	const stompClient = Stomp.over(socket);
+	stompClient.connect({}, function(frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
     });
@@ -24,17 +25,17 @@ function registerSendQueryAndConnect() {
 				if (subscription) {
 					subscription.unsubscribe();
 				}
-				var query = $("#q").val();
+				const query = $("#q").val();
 				stompClient.send("/app/search", {}, query);
 				newQuery = 1;
 				subscription = stompClient.subscribe("/queue/search/" + query, function(data) {
-					var resultsBlock = $("#resultsBlock");
+					const resultsBlock = $("#resultsBlock");
 					if (newQuery) {
                         resultsBlock.empty();
 						newQuery = 0;
 					}
-					var tweet = JSON.parse(data.body);
-                    resultsBlock.prepend(Mustache.render(template, tweet));
+					const tweet = JSON.parse(data.body);
+					resultsBlock.prepend(Mustache.render(template, tweet));
 				});
 			});
 }

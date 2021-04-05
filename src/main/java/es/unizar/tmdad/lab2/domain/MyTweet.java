@@ -2,6 +2,7 @@ package es.unizar.tmdad.lab2.domain;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.social.twitter.api.Entities;
 import org.springframework.social.twitter.api.Tweet;
@@ -191,12 +192,15 @@ public class MyTweet {
 
 	@Override
 	public boolean equals(Object o) {
-		return tweet.equals(o);
+		if (this == o) return true;
+		if (!(o instanceof MyTweet)) return false;
+		MyTweet myTweet = (MyTweet) o;
+		return Objects.equals(tweet, myTweet.tweet);
 	}
 
 	@Override
 	public int hashCode() {
-		return tweet.hashCode();
+		return Objects.hash(tweet, text);
 	}
 
 	@Override

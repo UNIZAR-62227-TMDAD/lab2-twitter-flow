@@ -1,11 +1,11 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
 
 group = 'es.unizar.tmdad'
-version = '2020'
+version = '2021'
 sourceCompatibility = 1.8
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 ext {
     boostrapVersion = '4.3.1'
     fontawesomeVersion = '5.12.0'
-    springSocialVersion = '1.1.0.RELEASE'
+    springSocialVersion = '1.1.2.RELEASE'
     mustacheVersion = '3.1.0'
     stompVersion = '2.3.3'
     sockjsVersion = '1.0.2'
@@ -42,6 +42,8 @@ dependencies {
     implementation("org.webjars:stomp-websocket:${stompVersion}")
     implementation("org.webjars:sockjs-client:${sockjsVersion}")
 
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -49,24 +51,9 @@ dependencies {
     }
 }
 
+compileJava.inputs.files(processResources)
+
 test {
     useJUnitPlatform()
 }
 
-//dependencies {
-//    compile("org.springframework.boot:spring-boot-starter-web")
-//    compile("org.springframework.boot:spring-boot-starter-social-twitter")
-//    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-//    compile("org.springframework.boot:spring-boot-starter-websocket")
-//    compile("org.springframework.boot:spring-boot-starter-integration")
-//    compile("org.springframework:spring-messaging")
-//    compile("org.springframework.integration:spring-integration-java-dsl:1.2.1.RELEASE")
-//    compile("com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2")
-//    compile("org.webjars:bootstrap:${boostrapVersion}")
-//    compile("org.webjars:font-awesome:${fontawesomeVersion}")
-//    compile("org.webjars.bower:mustache:${mustacheVersion}")
-//    compile("org.webjars:stomp-websocket:2.3.1-1")
-//    compile("org.webjars:sockjs-client:0.3.4-1")
-//    compile("commons-beanutils:commons-beanutils:1.9.2")
-//    testCompile("org.springframework.boot:spring-boot-starter-test")
-//}

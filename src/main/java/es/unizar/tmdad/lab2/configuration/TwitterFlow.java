@@ -3,13 +3,17 @@ package es.unizar.tmdad.lab2.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.Gateway;
+import org.springframework.integration.annotation.GatewayHeader;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.social.twitter.api.StreamDeleteEvent;
 import org.springframework.social.twitter.api.StreamListener;
+import org.springframework.social.twitter.api.Tweet;
 
 @Configuration
 @EnableIntegration
@@ -37,7 +41,8 @@ public class TwitterFlow {
         // Split --> dividir un TargetedTweet con muchos tópicos en tantos TargetedTweet como tópicos haya
         // Transform --> señalar el contenido de un TargetedTweet
         //
-		return IntegrationFlows.from(requestChannel()).log().
+		return IntegrationFlows.from(requestChannel()).
+				log().
 				handle("streamSendingService", "sendTweet").get();
 	}
 
@@ -45,7 +50,12 @@ public class TwitterFlow {
 
 // Segundo paso
 // Los mensajes recibidos por este @MessagingGateway se dejan en el canal "requestChannel"
-@MessagingGateway(name = "integrationStreamListener", defaultRequestChannel = "requestChannel")
+@MessagingGateway(name = "integrationStreamListener")
 interface MyStreamListener extends StreamListener {
 
+	@Gateway(requestChannel = "requestChannel", headers = @GatewayHeader(name = "method", value="onTweet"))
+	void onTweet(Tweet tweet);
+
+	@Gateway(headers = @GatewayHeader(name = "method", value="onDelete"))
+	void onDelete(StreamDeleteEvent deleteEvent);
 }
